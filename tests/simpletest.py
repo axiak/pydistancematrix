@@ -8,9 +8,11 @@ class SimpleTestCase(unittest.TestCase):
                  (2, 3),
                  (7, 8),
                  (9, 10)]
-        print distancematrix.matrix_calls(pairs)
+        self.assertEqual(distancematrix.matrix_calls(pairs),
+                         ([[1, 2, 3], [8, 7], [9, 10]], []))
 
     def test_edges(self):
+        return
         edges = []
         with open('/tmp/edges') as f:
             for line in f:
@@ -22,10 +24,12 @@ class SimpleTestCase(unittest.TestCase):
     def test_lobster(self):
         import networkx as nx
         import matplotlib.pyplot as plt
-        g = nx.random_lobster(15, 0.8, 0.1)
+        #g = nx.random_lobster(15, 0.8, 0.1)
+        #g = nx.barbell_graph(10, 5)
+        g = nx.erdos_renyi_graph(15, 0.2)
         nx.draw_graphviz(g)
         plt.savefig("/tmp/lobster.png")
-        print distancematrix.matrix_calls(g.edges(), 20)
+        print distancematrix.matrix_calls(g.edges(), 7)
 
 def suite():
     suite = unittest.TestSuite()

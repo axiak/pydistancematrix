@@ -11,14 +11,14 @@ try:
 except ImportError:
     version = (0, 0, 1)
 
-requirements = ['networkx',]
+requirements = ['networkx','pymetis',]
 
 if sys.version_info[0] < 3 and sys.version_info[1] < 7:
     requirements.append('importlib')
 
 setup(
     name='distancematrix',
-    version='.'.join(str(c) for c in distancematrix.__version__),
+    version='.'.join(str(c) for c in version),
     author='Mike Axiak',
     author_email='mike@axiak.net',
     description='Optimally call distance matrix information for list of origin-dest pairs.',
