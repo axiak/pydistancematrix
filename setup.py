@@ -22,7 +22,7 @@ setup(
     author='Mike Axiak',
     author_email='mike@axiak.net',
     description='Optimally call distance matrix information for list of origin-dest pairs.',
-    long_description=open("README.md").read(),
+    long_description=open("README.rst").read(),
     license='BSD',
     test_suite = 'tests.test_all',
     install_requires=requirements,
