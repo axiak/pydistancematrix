@@ -25,8 +25,8 @@ class SimpleTestCase(unittest.TestCase):
         import networkx as nx
         import matplotlib.pyplot as plt
         #g = nx.random_lobster(15, 0.8, 0.1)
-        #g = nx.barbell_graph(10, 5)
-        g = nx.erdos_renyi_graph(15, 0.2)
+        g = nx.barbell_graph(7, 5)
+        #g = nx.erdos_renyi_graph(15, 0.2)
         nx.draw_graphviz(g)
         plt.savefig("/tmp/lobster.png")
         print distancematrix.matrix_calls(g.edges(), 7)

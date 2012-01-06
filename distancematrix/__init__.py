@@ -1,6 +1,7 @@
-__version__ = (0, 0, 1)
+__version__ = (0, 0, 2)
 
 import networkx as nx
+import math
 
 __all__ = (
     'matrix_calls',
@@ -38,7 +39,8 @@ def matrix_calls(pairs, limit=None):
                     if other_node not in node_set:
                         outside_matrix.add(tuple(sorted((node, other_node))))
 
-        result.extend(partitions)
+        result.extend(partition for partition in partitions
+                      if len(partition) > 1)
 
     return result, sorted(list(outside_matrix))
 
@@ -50,6 +52,7 @@ def partition_nodes(graph, node_list, limit):
         return pymetis_partition(graph, node_list, limit)
 
 def simple_partition(graph, node_list, limit):
+    "Partition the graph by cutting the least connected N nodes separately."
     node_connection_list = [(len(graph[node]), node)
                             for node in node_list]
     node_connection_list.sort()
@@ -60,6 +63,7 @@ def simple_partition(graph, node_list, limit):
     return result
 
 def pymetis_partition(graph, node_list, limit):
+    "Partition the graph using metis."
     node_set = set(node_list)
     node_map = dict((node, i) for i, node in enumerate(node_list))
     adj_lists = dict((node_map[node], list(node_map[other_node]
@@ -67,7 +71,9 @@ def pymetis_partition(graph, node_list, limit):
                      for node in node_list)
     from pymetis import part_graph
 
-    cuts, part_vert = part_graph(2, adj_lists)
+    num_part = int(math.ceil(float(len(node_list)) / limit))
+
+    cuts, part_vert = part_graph(num_part, adj_lists)
     results = [[] for _ in range(max(part_vert) + 1)]
     node_map_rev = dict((v, k) for k, v in node_map.items())
 
